@@ -12,14 +12,26 @@ import java.unit.*;
 import javax.swing.*;
 
 public class NewJFrame extends javax.swing.JFrame {
-    
+   //Constant
+ private static final String QUESTION_FILE = "questions.txt" ;
+ private static final String WRONG_FILE ="wrong.txt";
+ 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(NewJFrame.class.getName());
-//11234
+      private ArrayList<Question> questionList = new ArrayList<>();
+      private ArrayList<Question> wrongList = new ArrayList<>();
+      private int currentIndex = 0;
+      private boolean reviewingWrong = false;
+      //Grade Statistics
+     private int correctCount = 0;
+     private int wrongCount = 0;
     /**
      * Creates new form NewJFrame
      */
     public NewJFrame() {
         initComponents();
+        loadQuestions();
+        loadWrong();
+        txtDisplay.setText("Click START to begin");
     }
 
     /**
