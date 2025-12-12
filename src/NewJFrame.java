@@ -7,6 +7,10 @@
  *
  * @author yesho
  */
+import java.io.*;
+import java.unit.*;
+import javax.swing.*;
+
 public class NewJFrame extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(NewJFrame.class.getName());
@@ -48,6 +52,11 @@ public class NewJFrame extends javax.swing.JFrame {
         btnA.setBackground(new java.awt.Color(255, 204, 153));
         btnA.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 24)); // NOI18N
         btnA.setText("A");
+        btnA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAActionPerformed(evt);
+            }
+        });
 
         btnB.setBackground(new java.awt.Color(153, 255, 255));
         btnB.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 24)); // NOI18N
@@ -182,6 +191,10 @@ public class NewJFrame extends javax.swing.JFrame {
     private void btnReviewWrongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReviewWrongActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnReviewWrongActionPerformed
+
+    private void btnAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAActionPerformed
 
     /**
      * @param args the command line arguments
