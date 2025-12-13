@@ -13,44 +13,52 @@ import javax.swing.*;
 
 public class NewJFrame extends javax.swing.JFrame {
    //Constant
- private static final String QUESTION_FILE = "questions.txt" ;
- private static final String WRONG_FILE ="wrong.txt";
+ private static final String QUESTION_FILE = "questions.txt" ;// question bank file
+ private static final String WRONG_FILE ="wrong.txt";// wrong question storage file
  
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(NewJFrame.class.getName());
-      private ArrayList<Question> questionList = new ArrayList<>();
-      private ArrayList<Question> wrongList = new ArrayList<>();
-      private int currentIndex = 0;
-      private boolean reviewingWrong = false;
+    // Instance variables
+      private ArrayList<Question> questionList = new ArrayList<>();// all questions
+      private ArrayList<Question> wrongList = new ArrayList<>();// wrong questions
+      private int currentIndex = 0;// current question index
+      private boolean reviewingWrong = false;// review mode toggle
+
       //Grade Statistics
-     private int correctCount = 0;
-     private int wrongCount = 0;
+     private int correctCount = 0; // number of correct answers
+     private int wrongCount = 0;  // number of wrong answers
+
     /**
      * Creates new form NewJFrame
      */
     public NewJFrame() {
-        initComponents();
-        loadQuestions();
-        loadWrong();
-        txtDisplay.setText("Click START to begin");
+        initComponents();// load UI components
+        loadQuestions();// read questions from file
+        loadWrong();// read wrong questions from file
+        txtDisplay.setText("Click START to begin"); // initial screen message
     }
-    //Method overloading
+    // Method overloading (second constructor)
     public NewFrame(String title){
-        this();
-        setTitle(title);
+        this();// call default constructor
+        setTitle(title);// set window title
     }
     //STATIC method
     public static void log(String msg){
-        logger.info(msg);
+        logger.info(msg);// print message to log
     }
-    //Read the question
+    // Read all questions from the question file
     private void loadQuestions(){
         try (BufferedReader br = new BufferedReader(new FileReader(QUESTION_FILE))){
-         String line; 
+         String line; // each line represents one question
+          // Read file line by line until no more lines exist
          while ((line = br.readLine())!= null){
+             // Create a new EthicalQuestion object and add to question list
+            // (polymorphism: EthicalQuestion extends Question)
              questionList.add(new EthicalQuestion(line));
          }
+          // Log how many questions were successfully loaded
          log("Loaded questions: " + questionList.size());
         }catch (Exception e){
+             // If file can't be found or read, show message on screen
             txtDisplay.setText("Cannot find "+QUESTION_FILE);
         }
     }   
