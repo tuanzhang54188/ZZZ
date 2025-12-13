@@ -33,7 +33,27 @@ public class NewJFrame extends javax.swing.JFrame {
         loadWrong();
         txtDisplay.setText("Click START to begin");
     }
-
+    //Method overloading
+    public NewFrame(String title){
+        this();
+        setTitle(title);
+    }
+    //STATIC method
+    public static void log(String msg){
+        logger.info(msg);
+    }
+    //Read the question
+    private void loadQuestions(){
+        try (BufferedReader br = new BufferedReader(new FileReader(QUESTION_FILE))){
+         String line; 
+         while ((line = br.readLine())!= null){
+             questionList.add(new EthicalQuestion(line));
+         }
+         log("Loaded questions: " + questionList.size());
+        }catch (Exception e){
+            txtDisplay.setText("Cannot find "+QUESTION_FILE);
+        }
+    }   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -73,14 +93,29 @@ public class NewJFrame extends javax.swing.JFrame {
         btnB.setBackground(new java.awt.Color(153, 255, 255));
         btnB.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 24)); // NOI18N
         btnB.setText("B");
+        btnB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBActionPerformed(evt);
+            }
+        });
 
         btnC.setBackground(new java.awt.Color(204, 255, 204));
         btnC.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 24)); // NOI18N
         btnC.setText("C");
+        btnC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCActionPerformed(evt);
+            }
+        });
 
         btnD.setBackground(new java.awt.Color(204, 204, 255));
         btnD.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 24)); // NOI18N
         btnD.setText("D");
+        btnD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDActionPerformed(evt);
+            }
+        });
 
         btnStart.setBackground(new java.awt.Color(255, 204, 204));
         btnStart.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 24)); // NOI18N
@@ -207,6 +242,18 @@ public class NewJFrame extends javax.swing.JFrame {
     private void btnAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAActionPerformed
+
+    private void btnCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCActionPerformed
+
+    private void btnBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBActionPerformed
+
+    private void btnDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDActionPerformed
 
     /**
      * @param args the command line arguments
