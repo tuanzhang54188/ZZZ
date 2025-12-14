@@ -295,5 +295,7 @@ public class NewJFrame extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 }
 
+
+
+
 //jingzhen
-//junlu
