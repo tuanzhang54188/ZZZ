@@ -1,4 +1,4 @@
-/*//GEN-LINE:variables
+/*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
@@ -13,133 +13,54 @@ import javax.swing.*;
 
 public class NewJFrame extends javax.swing.JFrame {
    //Constant
- private static final String QUESTION_FILE = "questions.txt" ;// question bank file
- private static final String WRONG_FILE ="wrong.txt";// wrong question storage file
+ private static final String QUESTION_FILE = "questions.txt" ;
+ private static final String WRONG_FILE ="wrong.txt";
  
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(NewJFrame.class.getName());
-    // Instance variables
-      private ArrayList<Question> questionList = new ArrayList<>();// all questions
-      private ArrayList<Question> wrongList = new ArrayList<>();// wrong questions
-      private int currentIndex = 0;// current question index
-      private boolean reviewingWrong = false;// review mode toggle
-
+      private ArrayList<Question> questionList = new ArrayList<>();
+      private ArrayList<Question> wrongList = new ArrayList<>();
+      private int currentIndex = 0;
+      private boolean reviewingWrong = false;
       //Grade Statistics
-     private int correctCount = 0; // number of correct answers
-     private int wrongCount = 0;  // number of wrong answers
-
+     private int correctCount = 0;
+     private int wrongCount = 0;
     /**
      * Creates new form NewJFrame
      */
     public NewJFrame() {
-        initComponents();// load UI components
-        loadQuestions();// read questions from file
-        loadWrong();// read wrong questions from file
-        txtDisplay.setText("Click START to begin"); // initial screen message
+        initComponents();
+        loadQuestions();
+        loadWrong();
+        txtDisplay.setText("Click START to begin");
     }
-    // Method overloading (second constructor)
+    //Method overloading
     public NewFrame(String title){
-        this();// call default constructor
-        setTitle(title);// set window title
+        this();
+        setTitle(title);
     }
     //STATIC method
     public static void log(String msg){
-        logger.info(msg);// print message to log
+        logger.info(msg);
     }
-    // Read all questions from the question file
+    //Read the question
     private void loadQuestions(){
         try (BufferedReader br = new BufferedReader(new FileReader(QUESTION_FILE))){
-         String line; // each line represents one question
-          // Read file line by line until no more lines exist
+         String line; 
          while ((line = br.readLine())!= null){
-             // Create a new EthicalQuestion object and add to question list
-            // (polymorphism: EthicalQuestion extends Question)
              questionList.add(new EthicalQuestion(line));
          }
-          // Log how many questions were successfully loaded
          log("Loaded questions: " + questionList.size());
         }catch (Exception e){
-             // If file can't be found or read, show message on screen
             txtDisplay.setText("Cannot find "+QUESTION_FILE);
         }
     }   
-    /**
-     * Loads wrong questions from wrong.txt into wrongList.
-     */
-    private void loadWrong(){
-        try (BufferedReader br=new BufferedReader(new FileReader(WRONG_FILE))){
-            String line;
-            //Read each line of the file (each line is one question)
-            while((line = br.readLine())!=null){
-                //Create a Question object (polymorphism: EthicalQuestion extends Question)
-                wrongList.add(new EthicalQuestion(line));                
-            }
-        }catch (Exception e){
-            //If file does not exist, simply log the message
-            log("No wrong.txt found." );
-        }
-    }   
-    /**
-     * Saves all wrong questions from wrongList into wrong.txt.
-     */
-    private void saveWrong(){
-        try (FileWriter fw = new FileWriter(WRONG_FILE)){
-            //Write each wrong question line into the file
-            for(Question q :wrongList) fw.write(q.raw+ "\n");
-        }catch(Exception e){
-            //log if saving fails
-            log("Error saving wrong.txt");           
-        }
-    }
-    /**
-     * Shows the current question or completion message on screen.
-     * @return 
-     */
-    private Void displayQuestion(){
-        ArrayList<Question> list = reviewingWrong ? wrongList : questionList;
-        //If the list is empty, show no-questions message
-        if (list.isEmpty()){
-            txtDisplay.setText("No questions available");
-            return;
-        }
-        //If index exceeds number of questions, show completion message
-        if (currentIndex >= list.size()){
-            txtDisplay.setText("All questions comleted!");
-            return;
-        }
-        Question q = list.get(currentIndex);
-        txtDisplay.setText(q.show());
-        lblQuestionNumber.setText("Q"+(currentIndex+1));
-    }
-    /**
-     * Checks the user's answer and updates score and wrongList.
-     * @param userChoice The answer selected by the user (A-D).
-     */
-    private void checkAnswer(StringuserChoice){
-        ArrayList<Question>list = reviewingWrong ? wrongList : questionList;
-        //If no more questions to check, exit
-        if (currentIndex >= list.size()) return;
-        Question q =list.get(currentIndex);
-        boolean isCorrect = q.isCorrect(userChoice);
-        String result = isCorrect ? "Correct!" : "Wrong!";
-        txtDisplay.setText(result+"\n\n"+q.show());
-        //Only track score in normal mode(not in review-wrong mode)
-        if(!reviewingWrong){
-            if(isCorrect) correctcount++;   //Increase correct answer counter
-            else{
-                wrongCount++;     //Increase wrong answer counter
-                wrongList.add(q);
-                saveWrong;
-            }
-        }
-        currentIndex++;
-    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
      * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -300,51 +221,39 @@ public class NewJFrame extends javax.swing.JFrame {
         );
 
         pack();
-    }// </editor-fold>                        
+    }// </editor-fold>//GEN-END:initComponents
 
-    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {                                        
-        displayQuestion();
-    }                                       
-
-    private void btnFinishActionPerformed(java.awt.event.ActionEvent evt) {                                          
-        txtDisplay.setText(
-        "Finished!\n\n"+
-                "Correct: "+correctCount+"\n"+  //show how many answers were correct
-                "Wrong: "+wrongCount + "\n"+    //show how many were wrong
-                "Total: "(correctCount + wrongCount)    //show total questions attempted
-                );
-    
-    }                                         
-
-    private void btnStartActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        reviewingWrong = false;    //start normal mode, not reviewing wrong questions
-        currentIndex = 0;    //go tp first question
-        correctCount = 0;    //reset score
-        wrongCount = 0;      //reset wrong counter
-        displayQuestion();   //show first question
-    }                                        
-
-    private void btnReviewWrongActionPerformed(java.awt.event.ActionEvent evt) {                                               
-        reviewingWrong = true;         //switch to wrong-question review mode
-        currentIndex = 0;        //restart from the beginning of wrongList
-        displayQuestion();          //show the first wrong question
-    }                                              
-
-    private void btnAActionPerformed(java.awt.event.ActionEvent evt) {                                     
+    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
         // TODO add your handling code here:
-    }                                    
+    }//GEN-LAST:event_btnNextActionPerformed
 
-    private void btnCActionPerformed(java.awt.event.ActionEvent evt) {                                     
+    private void btnFinishActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinishActionPerformed
         // TODO add your handling code here:
-    }                                    
+    }//GEN-LAST:event_btnFinishActionPerformed
 
-    private void btnBActionPerformed(java.awt.event.ActionEvent evt) {                                     
+    private void btnStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartActionPerformed
         // TODO add your handling code here:
-    }                                    
+    }//GEN-LAST:event_btnStartActionPerformed
 
-    private void btnDActionPerformed(java.awt.event.ActionEvent evt) {                                     
+    private void btnReviewWrongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReviewWrongActionPerformed
         // TODO add your handling code here:
-    }                                    
+    }//GEN-LAST:event_btnReviewWrongActionPerformed
+
+    private void btnAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAActionPerformed
+
+    private void btnCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCActionPerformed
+
+    private void btnBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBActionPerformed
+
+    private void btnDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDActionPerformed
 
     /**
      * @param args the command line arguments
@@ -371,7 +280,7 @@ public class NewJFrame extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(() -> new NewJFrame().setVisible(true));
     }
 
-    // Variables declaration - do not modify                     
+    // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnA;
     private javax.swing.JButton btnB;
     private javax.swing.JButton btnC;
@@ -383,5 +292,7 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton lblQuestionNumber;
     private javax.swing.JTextArea txtDisplay;
-    // End of variables declaration                   
+    // End of variables declaration//GEN-END:variables
 }
+
+//jingzhen
